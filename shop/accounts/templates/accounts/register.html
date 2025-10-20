@@ -1,0 +1,36 @@
+{% extends 'product/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0 text-center">Вход</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% bootstrap_form form %}
+
+                    <div class="d-grid gap-2">
+                        {% bootstrap_button "Войти" button_type="submit" button_class="btn-primary" %}
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p class="mb-0">Есть аккаунт?</p>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm mt-2">
+                        Войти
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

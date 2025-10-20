@@ -1,0 +1,124 @@
+{% extends 'product/base.html' %}
+
+{% block title %}Оплата прошла успешно{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-start"> <!-- Изменено на justify-content-start -->
+        <div class="col-md-12">
+
+
+                <div class="card-body p-5">
+                    <!-- Детали заказа слева -->
+                    <div class="order-info mb-5">
+                        <div class="d-flex flex-column align-items-start w-100"> <!-- Добавлено w-100 -->
+                            <div class="info-card p-3 border rounded mb-3 w-100"> <!-- Убрано max-width, добавлено w-100 -->
+                                <h5><i class="fas fa-receipt me-2"></i>Информация о заказе</h5>
+                                <hr>
+                                <p><strong>Номер заказа:</strong> #{{ order.id }}</p>
+                                <p><strong>Дата оформления:</strong> {{ order.created|date:"d.m.Y H:i" }}</p>
+                                <p><strong>Статус:</strong>
+                                    <span class="badge bg-success">Оплачен</span>
+                                </p>
+                            </div>
+
+                            <div class="info-card p-3 border rounded mb-3 w-100"> <!-- Убрано max-width, добавлено w-100 -->
+                                <h5><i class="fas fa-credit-card me-2"></i>Платежная информация</h5>
+                                <hr>
+                                <p><strong>Сумма заказа:</strong> {{ order.get_global_cost }} руб.</p>
+                                <p><strong>Способ оплаты:</strong> Имитация платежа</p>
+                                <p><strong>Статус платежа:</strong>
+                                    <span class="badge bg-success">Успешно</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Список товаров -->
+                    <div class="order-items">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Товар</th>
+                                        <th>Цена</th>
+                                        <th>Количество</th>
+                                        <th>Сумма</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in order.items.all %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {% if item.product.image %}
+                                                <img src="{{ item.product.image.url }}"
+                                                     alt="{{ item.product.name }}"
+                                                     class="me-3"
+                                                     style="width: 50px; height: 50px; object-fit: cover;">
+                                                {% else %}
+                                                <div class="bg-light me-3 d-flex align-items-center justify-content-center"
+                                                     style="width: 50px; height: 50px;">
+                                                    <i class="fas fa-image text-muted"></i>
+                                                </div>
+                                                {% endif %}
+                                                <div>
+                                                    <strong>{{ item.product.name }}</strong>
+                                                    {% if item.product.description %}
+                                                    <br><small class="text-muted">{{ item.product.description|truncatewords:10 }}</small>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ item.price }} руб.</td>
+                                        <td>{{ item.quantity }} шт.</td>
+                                        <td><strong>{{ item.get_cost }} руб.</strong></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot class="table-group-divider">
+                                    <tr>
+                                        <td colspan="3" class="text-end"><strong>Итого:</strong></td>
+                                        <td><strong class="text-success">{{ order.get_global_cost }} руб.</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+.info-card {
+    background: #f8f9fa;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.8em;
+}
+
+.order-info {
+    text-align: left;
+}
+
+
+
+</style>
+{% endblock %}

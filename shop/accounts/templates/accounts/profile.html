@@ -1,0 +1,96 @@
+{% extends 'product/base.html' %}
+{% load static %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<link href="{% static 'accounts/css/profile.css' %}" rel="stylesheet">
+
+<div class="profile-container">
+    <h1 class="category-header">Профиль пользователя</h1>
+
+    <div class="profile-content">
+        <!-- Левая колонка - информация о пользователе -->
+        <div class="profile-sidebar">
+            <div class="profile-card">
+                <div class="profile-card-header">
+                    <h3>Личная информация</h3>
+                </div>
+                <div class="profile-card-body">
+                    <div class="profile-info-item">
+                        <span class="info-label">Имя пользователя:</span>
+                        <span class="info-value">{{ user.username }}</span>
+                    </div>
+                    <div class="profile-info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">{{ user.email }}</span>
+                    </div>
+                    <div class="profile-info-item">
+                        <span class="info-label">Дата регистрации:</span>
+                        <span class="info-value">{{ user.date_joined|date:"d.m.Y H:i" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая колонка - история заказов -->
+        <div class="profile-main">
+            <div class="orders-card">
+                <div class="orders-card-header">
+                    <h3>История заказов</h3>
+                </div>
+                <div class="orders-card-body">
+                    {% if user.orders.all %}
+                        <div class="orders-list">
+                            {% for order in user.orders.all %}
+                                <div class="order-item">
+                                    <div class="order-header">
+                                        <h4 class="order-number">Заказ №{{ order.id }}</h4>
+                                        <span class="order-date">{{ order.created|date:"d.m.Y H:i" }}</span>
+                                    </div>
+
+                                    <div class="order-details">
+                                        <div class="order-detail-item">
+                                            <span class="detail-label">Сумма:</span>
+                                            <span class="detail-value">{{ order.get_global_cost }} руб.</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="detail-label">Товаров:</span>
+                                            <span class="detail-value">{{ order.items.count }} шт.</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="detail-label">Статус:</span>
+                                            <span class="status-badge {% if order.paid %}status-paid{% else %}status-pending{% endif %}">
+                                                {% if order.paid %}Оплачен{% else %}Ожидает оплаты{% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="order-actions">
+                                        <a href="{% url 'orders:order_detail' order.id %}" class="order-detail-btn">
+                                            Подробнее
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="empty-orders">
+                            <div class="empty-icon">
+                                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.1 5.9 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L20.88 5.48C20.96 5.34 21 5.17 21 5C21 4.45 20.55 4 20 4H5.21L4.27 2H1ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18Z" fill="#6c757d"/>
+                                </svg>
+                            </div>
+                            <h3>У вас пока нет заказов</h3>
+                            <p>Совершите первую покупку!</p>
+                            <a href="{% url 'product:product_list' %}" class="continue-shopping-btn">
+                                Перейти к покупкам
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

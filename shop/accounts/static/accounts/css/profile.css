@@ -1,0 +1,319 @@
+/* profile.css */
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #f8f9fa;
+    min-height: calc(100vh - 140px);
+}
+
+.category-header {
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 30px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: left;
+}
+
+.profile-content {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.profile-sidebar {
+    flex: 1;
+    min-width: 300px;
+}
+
+.profile-main {
+    flex: 2;
+    min-width: 500px;
+}
+
+/* Карточки профиля */
+.profile-card,
+.orders-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+}
+
+.profile-card-header,
+.orders-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 25px;
+}
+
+.profile-card-header h3,
+.orders-card-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.profile-card-body,
+.orders-card-body {
+    padding: 25px;
+}
+
+/* Информация о пользователе */
+.profile-info-item {
+    display: flex;
+    justify-content: between;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.profile-info-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #495057;
+    min-width: 160px;
+}
+
+.info-value {
+    color: #6c757d;
+    flex: 1;
+}
+
+/* Список заказов */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.order-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.order-number {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.order-date {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.order-details {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.order-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.detail-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #495057;
+}
+
+/* Бейджи статусов */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-paid {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.order-actions {
+    text-align: right;
+}
+
+.order-detail-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.order-detail-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+/* Пустые заказы */
+.empty-orders {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-icon {
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.empty-orders h3 {
+    color: #495057;
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.empty-orders p {
+    color: #6c757d;
+    margin-bottom: 25px;
+}
+
+.continue-shopping-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.continue-shopping-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-container {
+    animation: fadeInUp 0.6s ease;
+}
+
+.profile-card,
+.orders-card {
+    animation: fadeInUp 0.6s ease 0.1s both;
+}
+
+.order-item {
+    animation: fadeInUp 0.6s ease;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .profile-container {
+        padding: 20px;
+    }
+
+    .profile-content {
+        flex-direction: column;
+    }
+
+    .profile-sidebar,
+    .profile-main {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 15px;
+    }
+
+    .category-header {
+        font-size: 24px;
+    }
+
+    .order-details {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .profile-card-body,
+    .orders-card-body {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-info-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .info-label {
+        min-width: auto;
+    }
+}

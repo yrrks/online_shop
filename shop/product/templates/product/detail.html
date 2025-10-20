@@ -1,0 +1,85 @@
+{% extends "product/base.html" %}
+{% load static %}
+{% block title %}
+ {{ product.name }}
+{% endblock %}
+
+{% block content %}
+<link href="{% static 'product/css/detail.css' %}" rel="stylesheet">
+<script src="{% static 'product/js/detail.js' %}"></script>
+<div class="product-detail">
+    <div class="row">
+        <!-- Основное изображение и галерея -->
+        <div class="col-md-6">
+            <div class="main-image-container mb-3">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                     id="main-product-image"
+                     class="img-fluid rounded shadow main-product-image"
+                     alt="{{ product.name }}"
+                     style="max-height: 500px; object-fit: contain; width: 100%;">
+
+                <!-- Кнопка избранного на изображении -->
+                {% if user.is_authenticated %}
+                <div class="favorite-btn" data-product-id="{{ product.id }}">
+                    <svg class="favorite-icon {% if product.id in favorite_product_ids %}favorite-active{% endif %}"
+                         width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z"/>
+                    </svg>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Галерея дополнительных изображений -->
+            {% if additional_images %}
+            <div class="additional-gallery">
+                <!-- Превью основного изображения -->
+                <div class="gallery-thumbnail active" data-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                         class="img-fluid"
+                         alt="{{ product.name }}"
+                         style="height: 80px; width: 80px; object-fit: cover;">
+                </div>
+
+                <!-- Дополнительные изображения -->
+                {% for image in additional_images %}
+                <div class="gallery-thumbnail" data-image="{{ image.image.url }}">
+                    <img src="{{ image.image.url }}"
+                         class="img-fluid"
+                         alt="{{ image.alt_text|default:product.name }}"
+                         style="height: 80px; width: 80px; object-fit: cover;">
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Информация о товаре -->
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <h2>
+                <a href="{{ product.category.get_absolute_url }}">
+                    {{ product.category }}
+                </a>
+            </h2>
+            <p class="price">{{ product.price }} Р</p>
+
+            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                {% csrf_token %}
+
+                <div class="quantity-selector mb-3">
+                    <button type="button" class="quantity-btn minus">-</button>
+                    <input type="number" name="quantity" value="1" min="1" max="{{max_quantity}}" class="quantity-input">
+                    <button type="button" class="quantity-btn plus">+</button>
+                </div>
+
+                <input type="hidden" name="override" value="false">
+                <input type="submit" value="Добавить в корзину" class="add-to-cart-btn">
+            </form>
+
+            <div class="product-description mt-4">
+                {{ product.description|linebreaks }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "product/base.html" %}
+{% load static %}
+{% block title %}
+ Корзина
+{% endblock %}
+{% block content %}
+<link href="{% static 'cart/css/cart.css' %}" rel="stylesheet">
+
+<div class="cart-container">
+    <h1 class="category-header">Корзина</h1>
+
+    {% if cart %}
+    <div class="cart-table-container">
+        <table class="cart-table">
+            <thead>
+            <tr>
+                <th>Фото</th>
+                <th>Товар</th>
+                <th>Количество</th>
+                <th>Удалить</th>
+                <th>Цена товара</th>
+                <th>Цена товаров</th>
+            </tr>
+            </thead>
+            <tbody id="cart-items">
+            {% for item in cart %}
+            {% with product=item.product %}
+            <tr id="item-{{ product.id }}" class="cart-item">
+                <td class="product-image">
+                    <a href="{{ product.get_absolute_url }}">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="{{ product.name }}">
+                    </a>
+                </td>
+                <td class="product-name">
+                    <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                </td>
+                <td class="quantity-cell">
+                    <form action="{% url 'cart:cart_add' product.id %}" method="post" class="quantity-form">
+                        {% csrf_token %}
+                        <div class="quantity-selector">
+                            <button type="button" class="quantity-btn minus">-</button>
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.max_quantity }}" class="quantity-input">
+                            <button type="button" class="quantity-btn plus">+</button>
+                        </div>
+                        <input type="hidden" name="override" value="true">
+                    </form>
+                </td>
+                <td class="remove-cell">
+                    <form action="{% url 'cart:cart_remove' product.id %}" method="post" class="remove-form">
+                        {% csrf_token %}
+                        <button type="submit" class="remove-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </form>
+                </td>
+                <td class="price-cell"><span class="unit-price">{{ item.price }} Р</span></td>
+                <td class="price-cell total"><span class="total-price">{{ item.total_price }} Р</span></td>
+            </tr>
+            {% endwith %}
+            {% endfor %}
+
+            <tr class="total-row">
+                <td colspan="4" class="total-label">Всего</td>
+                <td colspan="2" class="total-price-cell">
+                    <span id="cart-total">{{ cart.get_total_price }} Р</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="cart-actions" id="cart-actions">
+        <a href="{% url 'product:product_list' %}" class="continue-shopping-btn">Продолжить покупки</a>
+        <a href="{% url 'orders:order_create' %}" class="checkout-btn">Оформить заказ</a>
+    </div>
+    {% else %}
+    <div class="empty-cart">
+        <div class="empty-cart-content">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.1 5.9 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L20.88 5.48C20.96 5.34 21 5.17 21 5C21 4.45 20.55 4 20 4H5.21L4.27 2H1ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18Z" fill="#6c757d"/>
+            </svg>
+            <h3>Корзина пуста</h3>
+            <p>Добавьте товары, чтобы продолжить покупки</p>
+            <a href="{% url 'product:product_list' %}" class="continue-shopping-btn">Перейти к товарам</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script src="{% static 'cart/js/cart.js' %}"></script>
+
+{% endblock %}
+

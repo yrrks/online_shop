@@ -1,0 +1,419 @@
+/* Основные стили для контента */
+.content-container {
+    display: flex;
+    min-height: calc(100vh - 140px);
+    margin: 0;
+}
+
+.category-header {
+    color: #2c3e50;
+    margin: 0 0 30px 0;
+    font-size: 32px;
+    font-weight: 700;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #667eea;
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.category-header::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.category-header-alt {
+    color: #2c3e50;
+    margin: 0 0 30px 0;
+    font-size: 32px;
+    font-weight: 700;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #667eea;
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.category-header-alt::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+/* Сайдбар с категориями */
+#sidebar {
+    width: 300px;
+    background: #f8f9fa; /* Убрали градиентный фон */
+    padding: 30px 0;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    border-right: 1px solid #dee2e6;
+}
+
+#sidebar h3 {
+    color: #495057;
+    margin: 0 30px 20px 30px;
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar li {
+    margin: 0;
+    position: relative;
+}
+
+
+
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+.favorite-btn:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-icon {
+    transition: all 0.3s ease;
+    stroke: #6c757d;
+    stroke-width: 1.5;
+    fill: transparent;
+}
+
+.favorite-icon.favorite-active {
+    fill: #dc3545;
+    stroke: #ffc107;
+    filter: drop-shadow(0 2px 4px rgba(255, 193, 7, 0.3));
+}
+
+.favorite-btn:hover .favorite-icon {
+    stroke: #ffc107;
+    transform: scale(1.1);
+}
+
+/* Стили для всех категорий (с подкатегориями и без) */
+#sidebar li.category-item,
+#sidebar li:not(.category-item) {
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Фон только у категорий */
+    margin: 2px 0;
+}
+
+#sidebar li.category-item:hover,
+#sidebar li:not(.category-item):hover {
+    border-left-color: rgba(255,255,255,0.5);
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+#sidebar li.selected {
+    border-left-color: #fff;
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+/* Контент категорий - общий стиль для всех */
+.category-content,
+#sidebar li:not(.category-item) > a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.category-link,
+#sidebar li:not(.category-item) > a {
+    flex: 1;
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    display: block;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.category-link:hover,
+#sidebar li:not(.category-item) > a:hover {
+    background: rgba(255,255,255,0.1);
+    text-decoration: none;
+    color: white;
+    padding-left: 35px;
+}
+
+/* Стили для категорий без подкатегорий - выравнивание */
+#sidebar li:not(.category-item) > a {
+    padding-left: 30px; /* Такой же отступ как у обычных категорий */
+}
+
+/* Стрелка раскрытия */
+.category-toggle {
+    color: white;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    font-size: 12px;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    /* Убираем выделение при клике на мобильных */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+.category-toggle:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+
+
+/* Дочерние категории */
+#sidebar .children {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(0,0,0,0.1);
+    border-left: 3px solid rgba(255,255,255,0.2);
+}
+
+#sidebar .children li {
+    border-left: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+#sidebar .children .category-link {
+    padding-left: 45px;
+    font-weight: 400;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#sidebar .children .category-link:hover {
+    padding-left: 50px;
+}
+
+#sidebar .children .all-subcategory {
+    background: rgba(255,255,255,0.15);
+}
+
+#sidebar .children .all-subcategory .category-link {
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Основной контент с товарами */
+#main {
+    flex: 1;
+    padding: 30px;
+    background: #f8f9fa;
+}
+
+#main h1 {
+    color: #495057;
+    margin: 0 0 30px 0;
+    font-size: 28px;
+    font-weight: 700;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Сетка товаров */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: #667eea;
+}
+
+.product-image {
+    height: 220px;
+    overflow: hidden;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Добавляем для позиционирования кнопки */
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 20px;
+}
+
+.product-name {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.product-name a {
+    color: #495057;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.product-name a:hover {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #667eea;
+    margin: 0 0 10px 0;
+}
+
+.product-description {
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .content-container {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        padding: 20px 0;
+    }
+
+    #main {
+        padding: 20px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    #sidebar h3 {
+        margin: 0 20px 15px 20px;
+    }
+
+    .category-link,
+    #sidebar li:not(.category-item) > a {
+        padding: 10px 20px;
+    }
+
+    #sidebar .children .category-link {
+        padding-left: 35px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .product-info {
+        padding: 15px;
+    }
+
+    #main h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .product-image {
+        height: 180px;
+    }
+}
+

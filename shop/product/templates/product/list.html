@@ -1,0 +1,81 @@
+{% extends "product/base.html" %}
+{% load static %}
+{% load mptt_tags %}
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}Все товары{% endif %}
+{% endblock %}
+
+{% block content %}
+<link href="{% static 'product/css/list.css' %}" rel="stylesheet">
+<script src="{% static 'product/js/list.js' %}"></script>
+  <div class="content-container">
+    <div id="sidebar">
+      <h3 class="category-header-alt">Категории</h3>
+      <ul>
+        <li {% if not category %}class="selected"{% endif %}>
+          <a href="{% url "product:product_list" %}">Все Категории</a>
+        </li>
+
+        {% recursetree categories %}
+          <li class="{% if category and category.id == node.id %}selected{% endif %} category-item">
+            <div class="category-content">
+              <a href="{{ node.get_absolute_url }}" class="category-link">{{ node.name }}</a>
+              {% if not node.is_leaf_node %}
+                <span class="category-toggle">▶</span>
+              {% endif %}
+            </div>
+
+            {% if not node.is_leaf_node %}
+              <ol class="children" style="display: none;">
+                <!-- Первый элемент - "Все [название категории]" -->
+                <li class="all-subcategory">
+                  <a href="{{ node.get_absolute_url }}">Все {{ node.name }}</a>
+                </li>
+                {{ children }}
+              </ol>
+            {% endif %}
+          </li>
+        {% endrecursetree %}
+      </ul>
+    </div>
+
+    <div id="main" class="product-list">
+      <h1 class="category-header">{% if category %}{{ category.name }}{% else %}Вся продукция{% endif %}</h1>
+
+      <div class="products-grid">
+       {% for product in products %}
+<div class="product-card" id="product-{{ product.id }}">
+    <div class="product-image">
+        <a href="{{ product.get_absolute_url }}">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'img/no_image.png' %}" alt="No image">
+            {% endif %}
+        </a>
+        <!-- Кнопка избранного -->
+        {% if user.is_authenticated %}
+        <div class="favorite-btn" data-product-id="{{ product.id }}">
+            <svg class="favorite-icon {% if product.id in favorite_product_ids %}favorite-active{% endif %}"
+                 width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z"/>
+            </svg>
+        </div>
+        {% endif %}
+    </div>
+    <div class="product-info">
+        <h3 class="product-name">
+            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+        </h3>
+        <p class="product-price">{{ product.price }} Р</p>
+        {% if product.description %}
+            <p class="product-description">{{ product.description|truncatewords:5 }} ...</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

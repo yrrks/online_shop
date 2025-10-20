@@ -1,0 +1,35 @@
+{% extends "product/base.html" %}
+{% load static %}
+
+{% block title %}Оформление заказа{% endblock %}
+
+{% block head %}
+{{ block.super }}
+<link href="{% static 'orders/css/order_styles.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="order-container">
+    <!-- Форма слева -->
+    <form method="post" class="order-form">
+        <h3>📝 Данные для доставки</h3>
+        {{ form.as_p }}
+        <p><input type="submit" value="✅ Оформить заказ"></p>
+        {% csrf_token %}
+    </form>
+
+    <!-- Заказ справа -->
+    <div class="order-info">
+        <h3>🛒 Ваш заказ</h3>
+        <ul>
+            {% for item in cart %}
+            <li>
+                <span>{{ item.quantity }} × {{ item.product.name }}</span>
+                <span>{{ item.total_price }} Р</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <p class="total-price">🎯 Всего: {{ cart.get_total_price_float }} Р</p>
+    </div>
+</div>
+{% endblock %}

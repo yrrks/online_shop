@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cart_items_tag %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'product/css/base.css' %}" rel="stylesheet">
+    <script src="{% static 'product/js/base.js' %}"></script>
+</head>
+<body>
+    <div id="header">
+        <a href="/" class="logo">Крутое название магазина</a>
+
+        <div class="header-buttons">
+            {% if user.is_authenticated %}
+                <!-- Кнопки для авторизованного пользователя -->
+                <a href="{% url 'accounts:profile' %}" class="header-btn">Профиль</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'wishlist:wishlist' %}" class="header-btn">Избранное</a>
+                {% endif %}
+                <a href="{% url 'accounts:logout' %}" class="header-btn">Выход</a>
+            {% else %}
+                <!-- Кнопки для неавторизованного пользователя -->
+                <a href="{% url 'accounts:login' %}" class="header-btn">Вход</a>
+                <a href="{% url 'accounts:registration' %}" class="header-btn">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+    <div id="subheader">
+        <div class="cart" id="cart-header">
+            {% with total_items=cart|length %}
+                {% if total_items > 0 %}
+                    В корзине:
+                    <a href="{% url 'cart:cart_detail' %}">
+                        <span id="cart-items-count">{{ total_items }}</span>
+                        <span id="cart-items-text">{{ total_items|product_plural }}</span>,  <!-- Добавлен этот span -->
+                        <span id="cart-total-header">{{ cart.get_total_price_float }}</span> Р
+                    </a>
+                {% else %}
+                    Корзина пуста  <!-- Убрал elif not orders -->
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+
+</body>
+</html>
