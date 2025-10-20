@@ -18,5 +18,5 @@ def create_activation_code(sender, instance, created, **kwargs):
 
             get_confirm_code.delay(instance.id)
         except Exception as e:
-            # Важно: НЕ поднимаем исключение, чтобы не сломать создание пользователя
+            # НЕ поднимаем исключение, чтобы не сломать создание пользователя
             print(f"Notice: Не удалось создать code для {instance.username}. Error: {e}")

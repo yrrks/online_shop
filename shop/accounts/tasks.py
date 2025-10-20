@@ -11,5 +11,4 @@ def get_confirm_code(user_id):
     subject = f'Код активации для {user.username}'
     message = f'Код активации : {code}'
     mail_sent = send_mail(subject, message, 'admin@shop.ru', [user.email])
-    print('!!!!!')
     return mail_sent

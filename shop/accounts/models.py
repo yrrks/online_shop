@@ -7,7 +7,7 @@ import string
 class CustomUser(AbstractUser):
 
     is_confirmed = models.BooleanField(
-        default=False,  # Пользователи неактивны до подтверждения email
+        default=False,
         verbose_name='Confirm'
     )
 
