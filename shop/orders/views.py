@@ -56,7 +56,7 @@ def imitation_payment(request,order_id):
     if not order.paid:
         order.paid = True
         order.save()
-        order_created(order_id)
+        order_created.delay(order_id)
         new_order_status = OrderStatus.objects.create(order=order)
 
     return render(request, 'orders/successful_payment.html',{'order':order})

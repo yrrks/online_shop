@@ -4,6 +4,7 @@ from .models import OrderStatus
 from django.http import Http404
 from django.contrib import messages
 from django.utils import timezone
+from .tasks import picked_done
 
 def order_manager(request):
     orders = (Order.objects.filter(paid=True).
@@ -36,6 +37,7 @@ def assign_picker(request, order_id):
         order_status.picker = request.user
         order_status.status = OrderStatus.STATUS_PROCESSING
         order_status.save()
+
         messages.success(request, 'Вы назначены сборщиком этого заказа')
 
     return redirect('warehouse:order_detail', order_id=order_id)
@@ -76,6 +78,7 @@ def complete_order(request, order_id):
             order_status.status = OrderStatus.STATUS_DONE
             order_status.picked = timezone.now()
             order_status.save()
+            picked_done.delay(order_id)
             messages.success(request, 'Заказ успешно завершен!')
         else:
             messages.error(request, 'Не все позиции собраны или вы не являетесь сборщиком')
