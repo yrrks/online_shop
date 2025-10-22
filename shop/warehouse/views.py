@@ -38,28 +38,6 @@ def assign_picker(request, order_id):
         order_status.status = OrderStatus.STATUS_PROCESSING
         order_status.save()
 
-        messages.success(request, 'Вы назначены сборщиком этого заказа')
-
-    return redirect('warehouse:order_detail', order_id=order_id)
-
-
-def update_order_items(request, order_id):
-    if request.method == 'POST':
-        order = get_object_or_404(Order, id=order_id)
-
-        # Получаем список собранных позиций
-        collected_items = request.POST.getlist('collected_items')
-
-        # Обновляем статус позиций заказа
-        for item in order.items.all():
-            if str(item.id) in collected_items:
-                item.is_collected = True
-            else:
-                item.is_collected = False
-            item.save()
-
-        messages.success(request, 'Статус позиций обновлен')
-
     return redirect('warehouse:order_detail', order_id=order_id)
 
 
