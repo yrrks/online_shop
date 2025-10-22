@@ -1,0 +1,58 @@
+{% extends "warehouse/base_warehouse.html" %}
+{% load static %}
+
+{% block title %}Заказы на сборку{% endblock %}
+
+{% block content %}
+<link href="{% static 'warehouse/css/order_pick.css' %}" rel="stylesheet">
+<div class="warehouse-container">
+    <h1>Заказы на сборку</h1>
+
+    {% if orders %}
+    <div class="orders-list">
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-header">
+                <h2>
+                    <a href="{% url 'warehouse:order_detail' order.id %}" class="order-link">
+                        Заказ #{{ order.id }}
+                    </a>
+                </h2>
+                <span class="order-status {{ order.order.status }}">
+                    {{ order.order.get_status_display }}
+                </span>
+            </div>
+
+            <div class="order-info">
+                <div class="info-row">
+                    <span class="label">Дата создания:</span>
+                    <span class="value">{{ order.created|date:"d.m.Y H:i" }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Сумма:</span>
+                    <span class="value">{{ order.get_global_cost }} ₽</span>
+                </div>
+
+                {% if order.order.picker %}
+                <div class="info-row">
+                    <span class="label">Сборщик:</span>
+                    <span class="value">{{ order.order.picker.get_full_name }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="order-actions">
+                <a href="{% url 'warehouse:order_detail' order.id %}" class="btn btn-primary">
+                    Перейти к сборке
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-orders">
+        <p>Нет заказов для сборки</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

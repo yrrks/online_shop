@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'wishlist.apps.WishlistConfig',
+    'warehouse.apps.WarehouseConfig',
 
 
 ]
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     # Свой middleware
 
     'accounts.middleware.ActiveUserMiddleware',
+    'accounts.middleware.StaffUserMiddleware',
 
 ]
 

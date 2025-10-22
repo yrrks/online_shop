@@ -1,0 +1,80 @@
+/* Упрощенный, рабочий интерфейс */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.warehouse-header {
+    background: #2c3e50;
+    color: white;
+    padding: 1rem 0;
+}
+
+.warehouse-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #667eea;
+}
+
+.warehouse-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1; /* Добавлено - растягивает основной контент */
+    width: 100%; /* Добавлено для полной ширины */
+}
+
+.warehouse-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    margin-top: auto;
+}
+
+.warehouse-footer p {
+    margin: 0;
+    color: #6c757d;
+}
+
+/* Добавлены медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+    .warehouse-nav {
+        flex-direction: column;
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+    }
+
+    .warehouse-main {
+        padding: 15px;
+    }
+}

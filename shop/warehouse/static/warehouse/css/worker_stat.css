@@ -1,0 +1,225 @@
+/* Статистика работника */
+.worker-stat-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Заголовок */
+.stat-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.stat-header h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.stat-subtitle {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+/* Общая статистика */
+.total-stats {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.total-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.total-label {
+    color: #6c757d;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* Список заказов */
+.orders-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.section-header h3 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Таблица заказов */
+.orders-table {
+    width: 100%;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 80px 120px 1fr 150px 120px 100px;
+    gap: 15px;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.order-row {
+    display: grid;
+    grid-template-columns: 80px 120px 1fr 150px 120px 100px;
+    gap: 15px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.order-row:hover {
+    background: #f8f9fa;
+}
+
+.order-row:last-child {
+    border-bottom: none;
+}
+
+/* Стили для ячеек */
+.order-number {
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.order-status {
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.status-new { background: #e3f2fd; color: #1976d2; }
+.status-processing { background: #fff3e0; color: #f57c00; }
+.status-done { background: #e8f5e8; color: #388e3c; }
+
+.order-client {
+    color: #495057;
+    font-weight: 500;
+}
+
+.order-date, .order-picked, .order-amount {
+    color: #6c757d;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.order-amount {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.order-actions .btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    color: white;
+    text-decoration: none;
+}
+
+/* Состояние пустого списка */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .worker-stat-container {
+        padding: 15px;
+    }
+
+    .stat-header h1 {
+        font-size: 2rem;
+    }
+
+    .table-header {
+        display: none;
+    }
+
+    .order-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 15px;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .total-number {
+        font-size: 2.5rem;
+    }
+
+    .orders-section {
+        padding: 15px;
+    }
+}

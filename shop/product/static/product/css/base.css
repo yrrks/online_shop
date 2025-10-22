@@ -211,3 +211,27 @@ a:visited {
         margin: 0 20px;
     }
 }
+
+.warehouse-footer {
+    text-align: center;
+    padding: 20px 0;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    margin-top: auto; /* если используете flex/grid layout */
+}
+
+/* Или более универсальный вариант */
+.shop-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    margin-top: auto;
+}
+
+.shop-footer p {
+    margin: 0;
+    color: #6c757d;
+}

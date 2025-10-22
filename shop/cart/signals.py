@@ -7,7 +7,7 @@ from .cart import CartService
 
 @receiver(post_save, sender=CustomUser)
 def create_user_cart(sender, instance, created, **kwargs):
-    if instance.is_stuff or instance.is_superuser:
+    if instance.is_staff or instance.is_superuser:
         return
     if created:
         try:

@@ -1,0 +1,62 @@
+{% extends "warehouse/base_warehouse.html" %}
+{% load static %}
+
+{% block title %}Собранные заказы{% endblock %}
+
+
+
+
+
+{% block content %}
+<link href="{% static 'warehouse/css/done_orders.css' %}" rel="stylesheet">
+<div class="done-orders-container">
+    <div class="page-header">
+        <h1>✅ Собранные заказы</h1>
+        <a href="{% url 'warehouse:orders_manager' %}" class="btn btn-outline">
+            ← Вернуться к сборке
+        </a>
+    </div>
+
+    {% if orders %}
+    <div class="orders-stats">
+        <div class="stat-card">
+            <div class="stat-number">{{ orders|length }}</div>
+            <div class="stat-label">Всего собрано</div>
+        </div>
+    </div>
+
+    <div class="orders-table">
+        <div class="table-header">
+            <div>№ Заказа</div>
+            <div>Сборщик</div>
+            <div>Дата сборки</div>
+            <div>Дата создания</div>
+            <div>Действия</div>
+        </div>
+
+        {% for order in orders %}
+        <div class="order-row" data-order-number="{{ order.id }}">
+            <div class="order-number">#{{ order.id }}</div>
+            <div class="order-picker">{{ order.order.picker.username|default:"Не назначен" }}</div>
+            <div class="order-date">{{ order.order.picked|date:"d.m.Y H:i"|default:"-" }}</div>
+            <div class="order-date">{{ order.created|date:"d.m.Y H:i" }}</div>
+            <div class="order-actions">
+                <a href="{% url 'warehouse:done_order_detail' order.id %}" class="btn btn-secondary">
+                    Подробнее
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <h2>Нет собранных заказов</h2>
+        <p>Здесь будут отображаться завершенные заказы</p>
+        <a href="{% url 'warehouse:orders_manager' %}" class="btn btn-primary">
+            Перейти к сборке заказов
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

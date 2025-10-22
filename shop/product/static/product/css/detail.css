@@ -334,3 +334,101 @@ form {
         max-height: 300px;
     }
 }
+
+
+.specifications-section {
+    margin-top: 2rem;
+    margin-left: 0;
+}
+
+.specs-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+}
+
+.specs-container {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #e9ecef;
+    width: 100%;
+    max-width: 500px;
+}
+
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.spec-item:last-child {
+    border-bottom: none;
+}
+
+.spec-item:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+    border-radius: 4px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.spec-key {
+    font-weight: 600;
+    color: #495057;
+    flex: 1;
+}
+
+.spec-value {
+    color: #6c757d;
+    flex: 1;
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .specs-container {
+        max-width: 100%;
+    }
+
+    .spec-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .spec-value {
+        text-align: left;
+        width: 100%;
+    }
+}
+
+/* Убираем кнопки в поле ввода количества */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input {
+    -moz-appearance: textfield; /* Firefox */
+    width: 60px;
+    height: 40px;
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    background: transparent;
+    margin: 0 10px;
+    /* Добавляем эти свойства для лучшего вида */
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.quantity-input:focus {
+    outline: none;
+}

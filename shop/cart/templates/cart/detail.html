@@ -39,7 +39,8 @@
                         {% csrf_token %}
                         <div class="quantity-selector">
                             <button type="button" class="quantity-btn minus">-</button>
-                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.max_quantity }}" class="quantity-input">
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.max_quantity }}" class="quantity-input"
+                            oninput="this.value = Math.min(this.value, {{ item.max_quantity }})">
                             <button type="button" class="quantity-btn plus">+</button>
                         </div>
                         <input type="hidden" name="override" value="true">

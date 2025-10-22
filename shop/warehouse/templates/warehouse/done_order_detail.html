@@ -1,0 +1,121 @@
+{% extends "warehouse/base_warehouse.html" %}
+{% load static %}
+
+{% block title %}Заказ #{{ order.id }} - Детали{% endblock %}
+
+
+
+
+
+{% block content %}
+<link href="{% static 'warehouse/css/done_order_detail.css' %}" rel="stylesheet">
+<div class="done-order-detail-container">
+    <!-- Заголовок -->
+    <div class="order-header">
+        <div>
+            <h1>Заказ #{{ order.id }}</h1>
+            <div class="order-meta">
+                <span class="status-badge status-done">✅ Собран</span>
+                <span class="order-date">Создан: {{ order.created|date:"d.m.Y H:i" }}</span>
+            </div>
+        </div>
+        <a href="{% url 'warehouse:orders_done' %}" class="btn btn-outline">
+            ← Назад к списку
+        </a>
+    </div>
+
+    <!-- Информация о заказе -->
+    <div class="order-info-sections">
+        <!-- Информация о клиенте -->
+        <div class="info-card">
+            <h3>Информация о клиенте</h3>
+            <div class="info-grid">
+                <div class="info-row">
+                    <span class="info-label">Имя:</span>
+                    <span class="info-value">{{ order.first_name }} {{ order.last_name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">{{ order.email }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Телефон:</span>
+                    <span class="info-value">{{ order.phone|default:"Не указан" }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Адрес:</span>
+                    <span class="info-value">{{ order.address }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Город:</span>
+                    <span class="info-value">{{ order.city }}, {{ order.postal_code }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Информация о сборке -->
+        <div class="info-card">
+            <h3>Информация о сборке</h3>
+            <div class="info-grid">
+                <div class="info-row">
+                    <span class="info-label">Статус:</span>
+                    <span class="info-value">✅ Собран</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Сборщик:</span>
+                    <span class="info-value">{{ order.order.picker.username|default:"Не назначен" }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Дата сборки:</span>
+                    <span class="info-value">{{ order.order.picked|date:"d.m.Y H:i"|default:"-" }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Кол-во позиций:</span>
+                    <span class="info-value">{{ order.items.count }} шт.</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Общая сумма:</span>
+                    <span class="info-value price">{{ order.get_global_cost|default:0 }} ₽</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Список товаров -->
+    <div class="items-section">
+        <h3>Состав заказа</h3>
+
+        <div class="table-header">
+            <div></div>
+            <div>Товар</div>
+            <div>Количество</div>
+            <div>Цена</div>
+            <div>Сумма</div>
+        </div>
+
+        {% for item in order.items.all %}
+        <div class="item-row">
+            <div class="item-image">
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                {% else %}
+                    <div class="no-image">📦</div>
+                {% endif %}
+            </div>
+            <div>
+                <div class="item-name">{{ item.product.name }}</div>
+                <div class="item-category">{{ item.product.category }}</div>
+            </div>
+            <div class="item-quantity">{{ item.quantity }} шт.</div>
+            <div class="item-price">{{ item.price }} ₽</div>
+            <div class="item-total">{{ item.get_cost }} ₽</div>
+        </div>
+        {% endfor %}
+
+        <!-- Итоговая сумма -->
+        <div class="order-total">
+            <strong class="total-amount">Итого: {{ order.get_global_cost|default:0 }} ₽</strong>
+        </div>
+    </div>
+</div>
+{% endblock %}

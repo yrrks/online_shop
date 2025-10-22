@@ -10,7 +10,7 @@
 <div class="product-detail">
     <div class="row">
         <!-- Основное изображение и галерея -->
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="main-image-container mb-3">
                 <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
                      id="main-product-image"
@@ -54,30 +54,48 @@
         </div>
 
         <!-- Информация о товаре -->
-        <div class="col-md-6">
-            <h1>{{ product.name }}</h1>
-            <h2>
-                <a href="{{ product.category.get_absolute_url }}">
-                    {{ product.category }}
-                </a>
-            </h2>
-            <p class="price">{{ product.price }} Р</p>
+        <div class="col-md-5">
+            <div class="product-info-card">
+                <h1>{{ product.name }}</h1>
+                <h2>
+                    <a href="{{ product.category.get_absolute_url }}">
+                        {{ product.category }}
+                    </a>
+                </h2>
+                <p class="price">{{ product.price }} Р</p>
 
-            <form action="{% url 'cart:cart_add' product.id %}" method="post">
-                {% csrf_token %}
+                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                    {% csrf_token %}
 
-                <div class="quantity-selector mb-3">
-                    <button type="button" class="quantity-btn minus">-</button>
-                    <input type="number" name="quantity" value="1" min="1" max="{{max_quantity}}" class="quantity-input">
-                    <button type="button" class="quantity-btn plus">+</button>
+                    <div class="quantity-selector mb-3">
+                        <button type="button" class="quantity-btn minus">-</button>
+                        <input type="number" name="quantity" value="1" min="1" max="{{max_quantity}}" class="quantity-input"
+                        oninput="this.value = Math.min(this.value, {{ max_quantity }})">
+                        <button type="button" class="quantity-btn plus">+</button>
+                    </div>
+
+                    <input type="hidden" name="override" value="false">
+                    <input type="submit" value="Добавить в корзину" class="add-to-cart-btn">
+                </form>
+
+                <div class="product-description mt-4">
+                    {{ product.description|linebreaks }}
                 </div>
 
-                <input type="hidden" name="override" value="false">
-                <input type="submit" value="Добавить в корзину" class="add-to-cart-btn">
-            </form>
-
-            <div class="product-description mt-4">
-                {{ product.description|linebreaks }}
+                <!-- ХАРАКТЕРИСТИКИ ПОД ОПИСАНИЕМ -->
+                {% if product.specifications %}
+                <div class="specifications-section mt-4">
+                    <h4 class="specs-title">Характеристики</h4>
+                    <div class="specs-container">
+                        {% for key, value in product.specifications.items %}
+                        <div class="spec-item">
+                            <div class="spec-key">{{ key }}</div>
+                            <div class="spec-value">{{ value }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Склад{% endblock %}</title>
+    <link href="{% static 'warehouse/css/warehouse.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header class="warehouse-header">
+        <nav class="warehouse-nav">
+            <div class="nav-brand">
+                <h1>Склад</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'warehouse:worker_stat' %}">Статистика работника</a>
+                <a href="{% url 'warehouse:orders_manager' %}">Заказы на сборку</a>
+                <a href="{% url 'warehouse:orders_done' %}">Собранные заказы</a>
+                <span class="user-info">
+                    {{ request.user.get_full_name }}
+                    <a href="{% url 'accounts:logout' %}">Выйти</a>
+                </span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="warehouse-main">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="warehouse-footer">
+        <p>&copy; 2024 Складская система</p>
+    </footer>
+</body>
+</html>

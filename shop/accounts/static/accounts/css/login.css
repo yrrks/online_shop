@@ -1,0 +1,197 @@
+/* Центрирование формы входа */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.login-card .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 30px;
+    text-align: center;
+}
+
+.login-card .card-header h4 {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0;
+    color: white;
+}
+
+.login-card .card-body {
+    padding: 40px 35px !important;
+    background: white;
+}
+
+/* Центрирование формы и полей */
+.login-form {
+    text-align: center;
+}
+
+.login-form .form-group {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.login-form .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    height: auto;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.login-form .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+    background: white;
+    transform: translateY(-2px);
+}
+
+/* Скрываем лейблы bootstrap */
+.login-form .form-label {
+    display: none !important;
+}
+
+/* Центрирование плейсхолдеров */
+.login-form .form-control::placeholder {
+    color: #6c757d;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+/* Центрирование текста в полях */
+.login-form .form-control {
+    text-align: center;
+}
+
+/* Кнопка входа */
+.login-form .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.login-form .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Ссылка на регистрацию */
+.registration-link {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.registration-link p {
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.registration-link .btn-outline-secondary {
+    border: 2px solid #667eea;
+    color: #667eea;
+    border-radius: 10px;
+    padding: 12px 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.registration-link .btn-outline-secondary:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Ошибки - тоже по центру */
+.login-form .invalid-feedback {
+    font-size: 0.85rem;
+    margin-top: 8px;
+    color: #dc3545;
+    text-align: center;
+    display: block;
+}
+
+.login-form .form-control.is-invalid {
+    border-color: #dc3545;
+    background: rgba(220, 53, 69, 0.05);
+}
+
+/* Help text - по центру */
+.login-form .form-text {
+    text-align: center;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Анимации */
+.login-card {
+    animation: slideUp 0.6s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 576px) {
+    .login-container {
+        padding: 15px;
+    }
+
+    .login-card {
+        max-width: 100%;
+    }
+
+    .login-card .card-body {
+        padding: 30px 25px !important;
+    }
+
+    .login-card .card-header {
+        padding: 25px;
+    }
+
+    .login-card .card-header h4 {
+        font-size: 1.5rem;
+    }
+
+    .login-form .form-control {
+        padding: 14px 16px;
+    }
+}

@@ -1,0 +1,119 @@
+{% extends "warehouse/base_warehouse.html" %}
+{% load static %}
+
+{% block title %}{% if order.order.status == 'done' %}Заказ #{{ order.id }} собран{% else %}Сборка заказа #{{ order.id }}{% endif %}{% endblock %}
+
+{% block content %}
+<link href="{% static 'warehouse/css/order_detail.css' %}" rel="stylesheet">
+<script src="{% static 'warehouse/js/order_detail.js' %}"></script>
+<div class="order-detail-container">
+
+    {% if order.order.status == 'done' %}
+    <!-- Если заказ уже собран -->
+    <div class="order-completed-message">
+        <div class="completed-icon">✅</div>
+        <h1>Заказ #{{ order.id }} уже собран</h1>
+        <p>Этот заказ был завершен сборщиком <strong>{{ order.order.picker.username }}</strong></p>
+        <div class="completed-actions">
+            <a href="{% url 'warehouse:orders_manager' %}" class="btn btn-primary">
+                ← Вернуться к заказам на сборку
+            </a>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- Если заказ еще не собран -->
+    <div class="order-header">
+        <h1>Заказ #{{ order.id }}</h1>
+        <div class="order-meta">
+            <span class="status-badge status-{{ order.order.status }}">
+                {{ order.order.get_status_display }}
+            </span>
+            <span class="order-date">{{ order.created|date:"d.m.Y H:i" }}</span>
+        </div>
+    </div>
+
+    <!-- Блок назначения сборщика -->
+    {% if not order.order.picker %}
+    <div class="assignment-section">
+        <form method="post" action="{% url 'warehouse:assign_picker' order.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-large">
+                🛒 Приступить к сборке
+            </button>
+            <small class="assignment-note">Вы будете назначены сборщиком этого заказа</small>
+        </form>
+    </div>
+    {% else %}
+    <div class="picker-info">
+        <p><strong>Сборщик:</strong> {{ order.order.picker.username }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Список позиций заказа -->
+    <div class="order-items-section">
+        <h2>Позиции заказа</h2>
+
+        <div class="items-list" id="itemsList">
+            {% for item in order.items.all %}
+            <div class="order-item" id="item-{{ item.id }}" data-item-id="{{ item.id }}">
+                <div class="item-image">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                    {% else %}
+                        <div class="no-image">📦</div>
+                    {% endif %}
+                </div>
+                <div class="item-details">
+                    <h3>{{ item.product.name }}</h3>
+                    <p class="item-category">{{ item.product.category }}</p>
+                    <div class="item-meta">
+                        <div class="item-quantity">
+                            Количество: <strong>{{ item.quantity }} шт.</strong>
+                        </div>
+                        <div class="item-price">
+                            Цена: {{ item.price }} ₽ × {{ item.quantity }} = <strong>{{ item.get_cost }} ₽</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-actions">
+                    {% if order.order.picker == request.user %}
+                    <label class="toggle-collection">
+                        <input type="checkbox" class="collection-checkbox" data-item-id="{{ item.id }}">
+                        <span class="toggle-slider">
+                            <span class="toggle-text">⏳ Собрать</span>
+                        </span>
+                    </label>
+                    {% else %}
+                    <div class="collection-status">
+                        <span class="status-pending">⏳ Ожидает</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Кнопка завершения заказа -->
+    {% if order.order.picker == request.user %}
+    <div class="completion-section">
+        <form method="post" action="{% url 'warehouse:complete_order' order.id %}" id="completeForm">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-complete disabled" id="completeBtn" disabled>
+                ✅ Завершить сборку заказа
+            </button>
+            <div class="completion-info">
+                <span class="text-warning" id="completionText">
+                    ⚠ Собрано <span id="collectedCount">0</span> из <span id="totalItems">{{ order.items.count }}</span> позиций
+                </span>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    {% endif %} <!-- Конец условия для не собранных заказов -->
+
+</div>
+{% endblock %}

@@ -5,6 +5,7 @@ from cart.cart import CartService
 from .tasks import order_created
 from product.models import Product
 from django.http import Http404
+from warehouse.models import OrderStatus
 
 def order_create(request):
 
@@ -56,6 +57,7 @@ def imitation_payment(request,order_id):
         order.paid = True
         order.save()
         order_created(order_id)
+        new_order_status = OrderStatus.objects.create(order=order)
 
     return render(request, 'orders/successful_payment.html',{'order':order})
 

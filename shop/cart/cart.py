@@ -71,13 +71,23 @@ class CartService:
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
 
+        current_quantity = self.cart[product_id]['quantity']
+
         if override_quantity:
-            self.cart[product_id]['quantity'] = quantity
+            # При перезаписи проверяем, не превышает ли новое количество доступное
+            if quantity > product.quantity:
+                self.cart[product_id]['quantity'] = product.quantity
+            else:
+                self.cart[product_id]['quantity'] = quantity
         else:
-            self.cart[product_id]['quantity'] += quantity
+            # При добавлении проверяем, не превысит ли сумма доступное количество
+            new_quantity = current_quantity + quantity
+            if new_quantity > product.quantity:
+                self.cart[product_id]['quantity'] = product.quantity
+            else:
+                self.cart[product_id]['quantity'] = new_quantity
 
         self.save()
-
 
 
     def __len__(self):

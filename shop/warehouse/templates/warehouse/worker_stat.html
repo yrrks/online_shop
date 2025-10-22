@@ -1,0 +1,82 @@
+{% extends "warehouse/base_warehouse.html" %}
+{% load static %}
+
+{% block title %}Мои заказы{% endblock %}
+
+
+
+
+{% block content %}
+<link href="{% static 'warehouse/css/worker_stat.css' %}" rel="stylesheet">
+<div class="worker-stat-container">
+    <!-- Заголовок -->
+    <div class="stat-header">
+        <h1>📦 Мои заказы</h1>
+        <p class="stat-subtitle">Все заказы, назначенные на меня</p>
+    </div>
+
+    <!-- Общая статистика -->
+    <div class="total-stats">
+        <div class="total-number">{{ orders.count }}</div>
+        <div class="total-label">Всего заказов</div>
+    </div>
+
+    <!-- Список заказов -->
+    <div class="orders-section">
+        <div class="section-header">
+            <h3>Список заказов</h3>
+            <small>Отсортировано по дате создания</small>
+        </div>
+
+        {% if orders %}
+        <div class="orders-table">
+            <div class="table-header">
+                <div>№</div>
+                <div>Статус</div>
+                <div>Клиент</div>
+                <div>Дата создания</div>
+                <div>Дата сборки</div>
+                <div>Сумма</div>
+                <div>Действия</div>
+            </div>
+
+            {% for order in orders %}
+            <div class="order-row">
+                <div class="order-number">#{{ order.id }}</div>
+                <div class="order-status status-{{ order.order.status }}">
+                    {{ order.order.get_status_display }}
+                </div>
+                <div class="order-client">{{ order.first_name }} {{ order.last_name }}</div>
+                <div class="order-date">{{ order.created|date:"d.m.Y H:i" }}</div>
+                <div class="order-picked">
+                    {% if order.order.picked %}
+                        {{ order.order.picked|date:"d.m.Y H:i" }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </div>
+                <div class="order-amount">{{ order.get_global_cost|default:0 }} ₽</div>
+                <div class="order-actions">
+                    {% if order.order.status == 'done' %}
+                    <a href="{% url 'warehouse:done_order_detail' order.id %}" class="btn btn-secondary">
+                        Подробнее
+                    </a>
+                    {% else %}
+                    <a href="{% url 'warehouse:order_detail' order.id %}" class="btn btn-secondary">
+                        Подробнее
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <h3>Заказы не найдены</h3>
+            <p>На вас еще не назначены заказы</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
